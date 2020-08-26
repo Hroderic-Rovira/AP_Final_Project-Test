@@ -1,0 +1,14 @@
+[
+    {
+        "idCarrito": 100,
+        "productos": []
+    },
+    {
+        "idCarrito": 200,
+        "productos": []
+    },
+    {
+        "idCarrito": 300,
+        "productos": []
+    }
+]

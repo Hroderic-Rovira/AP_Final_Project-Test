@@ -1,0 +1,20 @@
+[
+    {
+        "idUsuario" : 100,
+        "nombre" : "Rodrigo",
+        "Apellido" : "Rovira",
+        "idCarrito" : 100
+    },
+    {
+        "idUsuario" : 200,
+        "nombre" : "Grettel",
+        "Apellido" : "Duran",
+        "idCarrito" : 200
+    },
+    {
+        "idUsuario" : 300,
+        "nombre" : "Fernando",
+        "Apellido" : "Jimenez",
+        "idCarrito" : 300
+    }
+]
