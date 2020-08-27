@@ -9,7 +9,7 @@ class Administrador_JSON():
         path = os.path.abspath(__file__)
         nombre_directorio = os.path.dirname(path)
         os.chdir(nombre_directorio)
-        self.archivo_json = f'{archivo_json}'
+        self.archivo_json = f'json_files/{archivo_json}'
         self.datos_json = self.read_json()
 
     #Métodos para la manipulación de los JSON:

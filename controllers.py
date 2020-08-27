@@ -46,7 +46,48 @@ class Controller_Carritos:
             }
         self.carritos.insert(carrito)
 
-    #TODO Agregar métodos: Agregar al carrito, borrar, etc. 
+    #! REVISAR
+    def borrar_item_Carrito(self, id_carrito, id_producto = None, cantidad = None):
+        #! INFO MISSING
+        if id_producto and cantidad:
+            self.carritos.reducir_item_carrito(id_carrito, id_producto, cantidad)
+            self.producto_Controller.aumentar_inventario(id_producto, cantidad)
+            return f'Se ha(n) retornado {cantidad} unidade(s) del producto {id_producto}.' 
+        self.carritos.limpiar_carrito(id_carrito)
+        return f'El carrito {id_carrito} ha sido vaciado.'
+    
+    #! REVISAR
+    def agregar_item_Carrito(self, id_carrito, id_producto, cantidad):
+        # Método para agregar nuevos productos al carrito.
+        estado = "no agregado"
+        disponible = self.producto_Controller.producto_disponible(id_producto, cantidad)
+        nuevo_producto = self.producto_Controller.buscar_productos(id_producto)
+
+        # Primero se debe determinar si el producto a agregar está disponible.
+        if disponible:
+            carrito = self.carritos.select(id_carrito)
+            for item in carrito.get('productos') or []:
+                # Se busca dentro del carrito del cliente para ver si el producto ya fue agregado.
+                if item.get('id_Product') == id_producto:
+                    item['cantidadProducto'] += 1
+                    estado = "agregado"
+                    break
+                
+            if estado == "no agregado":
+                nuevo_producto['cantidadProducto'] = cantidad
+                carrito['productos'].append(nuevo_producto)
+                self.carritos.actualizar(id_carrito, carrito)
+                estado = "agregado"
+
+        if estado == "agregado":
+            return nuevo_producto.get('nombreProducto')
+        return False
+    #! REVISAR
+    def filtrar_carritos(self, id_carrito, nombre_campo = None):
+        carrito = self.carritos.select(id_carrito)
+        if nombre_campo:
+            return carrito.get("productos")
+        return carrito
 
     def calcular_Precio_Total(self, id_carrito):
         # Método para calcular el precio total a pagar por el cliente.
@@ -87,3 +128,4 @@ class Controller_Usuarios:
         # Se crea el nuevo usuario y el nuevo carrito, con el ID de su dueño.
         self.usuarios.insert(nuevo_usuario)
         self.controller_Carritos.crear_Carrito(nuevo_usuario.get('idUsuario'))
+        return nuevo_usuario
