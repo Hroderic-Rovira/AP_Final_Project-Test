@@ -1,6 +1,9 @@
 import json
 import os
 
+"""
+Los métodos dentro de la clase Administrador_JSON funcionarán como nuestro CRUD. 
+"""
 class Administrador_JSON():
 
     def __init__(self, archivo_json):
@@ -49,7 +52,7 @@ class Administrador_JSON():
         return False
 
     def save_item(self, datos_a_guardar):
-        # Guarad los contenidos de datos_a_guardar y recarga datos_json con la nueva información.
+        # Guarda los contenidos de datos_a_guardar y recarga datos_json con la nueva información.
         with open(self.archivo_json, "w") as archivo_json:
             json.dump(datos_a_guardar, archivo_json)
         self.datos_json = self.read_json()

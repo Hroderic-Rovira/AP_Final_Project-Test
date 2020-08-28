@@ -1,5 +1,9 @@
 from models import Modelo_Carrito, Modelo_Producto, Modelo_Usuario
 
+"""
+Nuestros controllers estarán encargados de recibir los requests generados al ingresar una URL.
+"""
+
 class Controller_Producto:
 
     def __init__(self):
@@ -45,18 +49,13 @@ class Controller_Carritos:
             "productos": []
             }
         self.carritos.insert(carrito)
-
-    #! REVISAR
     def borrar_item_Carrito(self, id_carrito, id_producto = None, cantidad = None):
-        #! INFO MISSING
         if id_producto and cantidad:
             self.carritos.reducir_item_carrito(id_carrito, id_producto, cantidad)
             self.producto_Controller.aumentar_inventario(id_producto, cantidad)
             return f'Se ha(n) retornado {cantidad} unidade(s) del producto {id_producto}.' 
         self.carritos.limpiar_carrito(id_carrito)
         return f'El carrito {id_carrito} ha sido vaciado.'
-    
-    #! REVISAR
     def agregar_item_Carrito(self, id_carrito, id_producto, cantidad):
         # Método para agregar nuevos productos al carrito.
         estado = "no agregado"
@@ -82,7 +81,6 @@ class Controller_Carritos:
         if estado == "agregado":
             return nuevo_producto.get('nombreProducto')
         return False
-    #! REVISAR
     def filtrar_carritos(self, id_carrito, nombre_campo = None):
         carrito = self.carritos.select(id_carrito)
         if nombre_campo:

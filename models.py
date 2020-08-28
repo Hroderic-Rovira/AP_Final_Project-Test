@@ -6,7 +6,7 @@ from json.decoder import JSONDecodeError
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 
-# region Variables Globales (Schemas para Validación de los JSON):
+# region Variables Globales (Esquemas para Validación de los JSON):
 
 VALIDACION_SCHEMA_CARRITO = {
     "type": "object",
@@ -42,8 +42,11 @@ VALIDACION_SCHEMA_USUARIO = {
 
 # endregion
 
-class Modelo_Base():
-    # Tenemos un modelo base que será modificado dependiendo del modelo que interactúe con él. #! Modificar descripción.
+"""
+Esta clase estará encargada de recibir y enviar la información a nuesta base de datos. En el caso de nuestro proyecto, 
+estaremos usando archivos con formato JSON (carrito.json, productos.json y usuarios.json).
+"""
+class Modelo_DataRetriever():
 
     def __init__(self, nombre_campo, archivo_json, nombre_schema):
         self.nombre_campo  = nombre_campo
@@ -96,18 +99,21 @@ class Modelo_Base():
             #Si el valor falla, entonces genera la alerta de error.
             raise Exception(mensaje_error)
         
-class Modelo_Carrito(Modelo_Base):
+"""
+Estos modelos se encargarán de interactuar con el DataRetriever para obtner información de nuestra fuente de datos, y devolverán
+la información a nuestros controllers para que esta sea enviada a nuestras views.
+"""
+
+class Modelo_Carrito(Modelo_DataRetriever):
     def __init__(self):
         self.nombre_campo = "idCarrito"
         super().__init__(self.nombre_campo, 'carrito.json', VALIDACION_SCHEMA_CARRITO)
     
-    #! Esto debería ser parte del controller.
     def limpiar_carrito(self, id_carrito):
         carrito = self.select(id_carrito)
         carrito['productos'] = []
         self.actualizar(id_carrito, carrito)
 
-    #! Esto debería ser parte del controller.
     def reducir_item_carrito(self, id_carrito, id_producto, cantidad):
         carrito = self.select(id_carrito)
         productos_carrito = carrito.get('productos')
@@ -118,7 +124,7 @@ class Modelo_Carrito(Modelo_Base):
                 return True
         # Si el producto no pudo ser encontrado, entonces retorna False. 
         return False
-    #! Esto debería ser parte del controller.
+
     def aumentar_item_carrito(self, id_carrito, id_producto, cantidad):
         carrito = self.select(id_carrito)
         productos_carrito = carrito.get('productos')
@@ -130,25 +136,22 @@ class Modelo_Carrito(Modelo_Base):
         # Si el producto no pudo ser encontrado, entonces retorna False. 
         return False
 
-class Modelo_Producto(Modelo_Base):
+class Modelo_Producto(Modelo_DataRetriever):
     def __init__(self):
         self.nombre_campo = "idProducto"
         super().__init__(self.nombre_campo, 'productos.json', VALIDACION_SCHEMA_PRODUCTO)
-    
-    #! Esto debería ser parte del controller.
+
     def reducir_item_stock(self, id_producto, cantidad):
         productos = self.select(id_producto)
         productos["cantidadProducto"] = productos["cantidadProducto"] - cantidad
         self.actualizar(id_producto, productos)
 
-    #! Esto debería ser parte del controller.
     def aumentar_item_stock(self, id_producto, cantidad):
         productos = self.select(id_producto)
         productos["cantidadProducto"] = productos["cantidadProducto"] + cantidad
         self.actualizar(id_producto, productos)
-        
 
-class Modelo_Usuario(Modelo_Base):    
+class Modelo_Usuario(Modelo_DataRetriever):    
     def __init__(self):
         self.nombre_campo = "idUsuario"
         super().__init__(self.nombre_campo, 'usuarios.json', VALIDACION_SCHEMA_USUARIO)
