@@ -11,33 +11,33 @@ from jsonschema.exceptions import ValidationError
 VALIDACION_SCHEMA_CARRITO = {
     "type": "object",
     "properties": {
-        "idCart": {"type": "integer"},
-        "products": {
+        "idCarrito": {"type": "integer"},
+        "productos": {
             "type": "array",
-            "required": ["idProduct", "productName", "productQty", "productPrice"]}},
-    "required": ["idCart", "products"]
+            "required": ["idProducto", "nombreProducto", "cantidadProducto", "precioProducto"]}},
+    "required": ["idCarrito", "productos"]
 }
 
 VALIDACION_SCHEMA_PRODUCTO = {
     "type": "object",
     "properties": {
-        "idProduct": {"type": "integer"},
-        "productName": {"type": "string"},
-        "productQty": {"type": "integer"},
-        "productPrice": {"type": "integer"}
+        "idProducto": {"type": "integer"},
+        "nombreProducto": {"type": "string"},
+        "cantidadProducto": {"type": "integer"},
+        "precioProducto": {"type": "integer"}
     },
-    "required": ["idProduct", "productName", "productQty", "productPrice"]
+    "required": ["idProducto", "nombreProducto", "cantidadProducto", "precioProducto"]
 }
 
 VALIDACION_SCHEMA_USUARIO = {
     "type": "object",
     "properties": {
-        "idUser": {"type": "integer"},
-        "name": {"type": "string"},
-        "lastName": {"type": "string"},
-        "idCart": {"type": "integer"}
+        "idUsuario": {"type": "integer"},
+        "username": {"type": "string"},
+        "password": {"type": "string"},
+        "idCarrito": {"type": "integer"}
     },
-    "required": ["idUser", "name", "lastName"]
+    "required": ["idUsuario", "username", "password"]
 }
 
 # endregion
