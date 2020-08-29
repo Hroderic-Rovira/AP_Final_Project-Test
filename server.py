@@ -31,10 +31,10 @@ def listar_productos_HTML():
     # Retornar una lista de todos los productos disponibles.
     return render_template(HTML_TEMPLATE, rendered_request='/api/products/all',rendered_response=listar_productos().data)
 
-@app.route('/products/detail/<idProduct>')
-def filtrar_productos_HTML(id_producto):
+@app.route('/products/detail/<idProducto>')
+def filtrar_productos_HTML(idProducto):
     #! Info.
-    return render_template(HTML_TEMPLATE, rendered_request=f'/api/products/detail/{id_producto}',rendered_response=filtrar_productos(id_producto).data)
+    return render_template(HTML_TEMPLATE, rendered_request=f'/api/products/detail/{idProducto}',rendered_response=filtrar_productos(idProducto).data)
 
 # -|- URL de Productos con prefijo -> /api -|-
 
@@ -43,46 +43,46 @@ def listar_productos():
     # Listar todos los productos. 
     return jsonify({"productos": controller_Productos.listar_productos()})
     
-@app.route('/api/productos/detail/<idPorduct>', methods=['GET'])
-def filtrar_productos(id_producto):
+@app.route('/api/products/detail/<idProducto>', methods=['GET'])
+def filtrar_productos(idProducto):
     # Filtrar los productos por medio de un ID. 
     try:
-        return jsonify({id_producto: controller_Productos.buscar_productos(int(id_producto))})
+        return jsonify({idProducto: controller_Productos.buscar_productos(int(idProducto))})
     except ValueError:
-        return make_response(jsonify({"message":f'El parámetro idProducto ({id_producto}) debe ser un número.'}),400)
+        return make_response(jsonify({"message":f'El parámetro idProducto ({idProducto}) debe ser un número.'}),400)
 
 #endregion
 
 # region Carrito:
-@app.route('/cart/<idUser>')
-def ver_carrito_HTML(id_usuario):
+@app.route('/cart/<idUsuario>')
+def ver_carrito_HTML(idUsuario):
     #
-    return render_template(HTML_TEMPLATE, rendered_request = f'/api/products/detail/{id_usuario}', rendered_response = filtrar_productos(id_usuario).data)
-@app.route('/cart/price/<idUser>')
-def ver_precio_total_HTML(id_usuario):
+    return render_template(HTML_TEMPLATE, rendered_request = f'/api/products/detail/{idUsuario}', rendered_response = filtrar_productos(idUsuario).data)
+@app.route('/cart/price/<idUsuario>')
+def ver_precio_total_HTML(idUsuario):
     #
-    return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{id_usuario}', rendered_response = ver_precio_total(id_usuario).data)
+    return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{idUsuario}', rendered_response = ver_precio_total(idUsuario).data)
 
-@app.route('/cart/qty/<idUser>')
-def ver_cantidad_total_HTML(id_usuario):
+@app.route('/cart/qty/<idUsuario>')
+def ver_cantidad_total_HTML(idUsuario):
     #
-    return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{id_usuario}', rendered_response = ver_cantidad_total(id_usuario).data)
+    return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{idUsuario}', rendered_response = ver_cantidad_total(idUsuario).data)
 
 # -|- URL de Carrito con prefijo -> /api -|-
 
-@app.route('/api/cart/<idUser>', methods=['GET'])
-def ver_carrito(id_usuario):
+@app.route('/api/cart/<idUsuario>', methods=['GET'])
+def ver_carrito(idUsuario):
     #
     try:
-        return jsonify({id_usuario: controller_Carrito.filtrar_carritos(int(id_usuario))})
+        return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
 
-@app.route('/api/cart/<idUser>/<idProduct>', methods=['POST'])
-def agregar_producto_carrito(id_usuario, id_producto):
+@app.route('/api/cart/<idUsuario>/<idProducto>', methods=['POST'])
+def agregar_producto_carrito(idUsuario, idProducto):
     # Se encarga de agregar un producto determinado al carrito del usuario.
     try:
-        mensaje = controller_Carrito.agregar_item_Carrito(int(id_usuario), int(id_producto),1)
+        mensaje = controller_Carrito.agregar_item_Carrito(int(idUsuario), int(idProducto),1)
         if mensaje:
             return jsonify({"message": f'El producto {mensaje} fue añadido.'})
         else:
@@ -93,27 +93,27 @@ def agregar_producto_carrito(id_usuario, id_producto):
     except Exception as mensaje_error:
         return make_response(jsonify({"message": str(mensaje_error)}),400)
 
-@app.route('/api/cart/<idUser>/<idProduct>', methods=['DELETE'])
-def eliminar_producto_carrito(id_usuario, id_producto):
+@app.route('/api/cart/<idUsuario>/<idProducto>', methods=['DELETE'])
+def eliminar_producto_carrito(idUsuario, idProducto):
     # Se encarga de eliminar un producto determinado del carrito del usuario.
     try:
-        return jsonify({"message": controller_Carrito.borrar_item_Carrito(int(id_usuario),int(id_producto),1)})
+        return jsonify({"message": controller_Carrito.borrar_item_Carrito(int(idUsuario),int(idProducto),1)})
     except ValueError:
         return make_response(jsonify({"message": f'Los parametros idUsuario y idProducto debe ser números'}),400)
 
-@app.route('/api/cart/qty/<idUser>', methods=['GET'])
-def ver_precio_total(id_usuario):
+@app.route('/api/cart/qty/<idUsuario>', methods=['GET'])
+def ver_precio_total(idUsuario):
     # Devuelve el precio total de todos los productos en el carrito.
     try:
-        return jsonify({id_usuario: controller_Carrito.filtrar_carritos(int(id_usuario))})
+        return jsonify({f'El {idUsuario} debe': controller_Carrito.calcular_Precio_Total(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
 
-@app.route('/api/cart/cart/<idUsers>', methods=['GET'])
-def ver_cantidad_total(id_usuario):
+@app.route('/api/cart/cart/<idUsuarios>', methods=['GET'])
+def ver_cantidad_total(idUsuario):
     # Devuelve el total del productos en el carrito del usuario.
     try:
-        return jsonify({id_usuario: controller_Carrito.filtrar_carritos(int(id_usuario))})
+        return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
 
