@@ -118,7 +118,7 @@ class Modelo_Carrito(Modelo_DataRetriever):
         carrito = self.select(id_carrito)
         productos_carrito = carrito.get('productos')
         for item in productos_carrito:
-            if item.get("idProducto") == id_producto:
+            if item.get("idProducto") == id_producto and item.get("cantidadProducto") > 0:
                 item["cantidadProducto"] = item["cantidadProducto"] - cantidad
                 self.actualizar(id_carrito, carrito)
                 return True

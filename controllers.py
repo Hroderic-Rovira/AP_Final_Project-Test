@@ -49,6 +49,7 @@ class Controller_Carritos:
             "productos": []
             }
         self.carritos.insert(carrito)
+    
     def borrar_item_Carrito(self, id_carrito, id_producto = None, cantidad = None):
         #Si no id_producto y cantidad no reciben ningún parámetro, el método procederá a limpiar el carrito. (Compra Finalizada)
         if id_producto and cantidad:
@@ -57,6 +58,7 @@ class Controller_Carritos:
             return f'Se ha(n) retornado {cantidad} unidade(s) del producto {id_producto}.' 
         self.carritos.limpiar_carrito(id_carrito)
         return f'El carrito {id_carrito} ha sido vaciado.'
+    
     def agregar_item_Carrito(self, id_carrito, id_producto, cantidad):
         # Método para agregar nuevos productos al carrito.
         estado = "no agregado"
@@ -66,10 +68,12 @@ class Controller_Carritos:
         # Primero se debe determinar si el producto a agregar está disponible.
         if disponible:
             carrito = self.carritos.select(id_carrito)
+
             for item in carrito.get('productos') or []:
                 # Se busca dentro del carrito del cliente para ver si el producto ya fue agregado.
-                if item.get('id_Product') == id_producto:
+                if item.get('idProducto') == id_producto:
                     item['cantidadProducto'] += 1
+                    self.carritos.actualizar(id_carrito, carrito)
                     estado = "agregado"
                     break
                 
@@ -82,6 +86,7 @@ class Controller_Carritos:
         if estado == "agregado":
             return nuevo_producto.get('nombreProducto')
         return False
+
     def filtrar_carritos(self, id_carrito, nombre_campo = None):
         carrito = self.carritos.select(id_carrito)
         if nombre_campo:

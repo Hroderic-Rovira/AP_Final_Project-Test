@@ -17,10 +17,12 @@ HTML_TEMPLATE = 'main_page.html'
 #endregion
 
 @app.errorhandler(404)
+    # Handler para el error 404. 
 def error_404(e):
     return jsonify(error=str(e)),404
 
 @app.route('/')
+    # URL para la página principal.
 def landing_page():
     return render_template('landing_page.html')
 
@@ -28,24 +30,24 @@ def landing_page():
 
 @app.route('/products/all')
 def listar_productos_HTML():
-    # Retornar una lista de todos los productos disponibles.
+    # URL para listar los productos.
     return render_template(HTML_TEMPLATE, rendered_request='/api/products/all',rendered_response=listar_productos().data)
 
 @app.route('/products/detail/<idProducto>')
 def filtrar_productos_HTML(idProducto):
-    #! Info.
+    # URL para filtrar los productos.
     return render_template(HTML_TEMPLATE, rendered_request=f'/api/products/detail/{idProducto}',rendered_response=filtrar_productos(idProducto).data)
 
 # -|- URL de Productos con prefijo -> /api -|-
 
 @app.route('/api/products/all', methods=['GET'])
 def listar_productos():
-    # Listar todos los productos. 
+    # Genera el request para listar los productos. 
     return jsonify({"productos": controller_Productos.listar_productos()})
     
 @app.route('/api/products/detail/<idProducto>', methods=['GET'])
 def filtrar_productos(idProducto):
-    # Filtrar los productos por medio de un ID. 
+    # Genera el request para filtrar un producto. 
     try:
         return jsonify({idProducto: controller_Productos.buscar_productos(int(idProducto))})
     except ValueError:
@@ -56,23 +58,24 @@ def filtrar_productos(idProducto):
 # region Carrito:
 @app.route('/cart/<idUsuario>')
 def ver_carrito_HTML(idUsuario):
-    #
+    # URL para ver los contenidos de un usuario.
     return render_template(HTML_TEMPLATE, rendered_request = f'/api/products/detail/{idUsuario}', rendered_response = filtrar_productos(idUsuario).data)
+
 @app.route('/cart/price/<idUsuario>')
 def ver_precio_total_HTML(idUsuario):
-    #
+    # URL para ver el precio total de un carrito.
     return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{idUsuario}', rendered_response = ver_precio_total(idUsuario).data)
 
 @app.route('/cart/qty/<idUsuario>')
 def ver_cantidad_total_HTML(idUsuario):
-    #
+    # URL para ver la cantidad total de productos en un carrito.
     return render_template(HTML_TEMPLATE, render_request = f'/api/cart/{idUsuario}', rendered_response = ver_cantidad_total(idUsuario).data)
 
 # -|- URL de Carrito con prefijo -> /api -|-
 
 @app.route('/api/cart/<idUsuario>', methods=['GET'])
 def ver_carrito(idUsuario):
-    #
+    # Genera el request para visualizar el carrito de un usuario.
     try:
         return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
     except ValueError:
@@ -80,7 +83,7 @@ def ver_carrito(idUsuario):
 
 @app.route('/api/cart/<idUsuario>/<idProducto>', methods=['POST'])
 def agregar_producto_carrito(idUsuario, idProducto):
-    # Se encarga de agregar un producto determinado al carrito del usuario.
+    # Genera el request para agregar un producto al carrito.
     try:
         mensaje = controller_Carrito.agregar_item_Carrito(int(idUsuario), int(idProducto),1)
         if mensaje:
@@ -95,7 +98,7 @@ def agregar_producto_carrito(idUsuario, idProducto):
 
 @app.route('/api/cart/<idUsuario>/<idProducto>', methods=['DELETE'])
 def eliminar_producto_carrito(idUsuario, idProducto):
-    # Se encarga de eliminar un producto determinado del carrito del usuario.
+    # Genera el request para eliminar un producto de un carrito.
     try:
         return jsonify({"message": controller_Carrito.borrar_item_Carrito(int(idUsuario),int(idProducto),1)})
     except ValueError:
@@ -103,7 +106,7 @@ def eliminar_producto_carrito(idUsuario, idProducto):
 
 @app.route('/api/cart/price/<idUsuario>', methods=['GET'])
 def ver_precio_total(idUsuario):
-    # Devuelve el precio total de todos los productos en el carrito.
+    # Genera el request para visualizar el precio total a pagar.
     try:
         return jsonify({f'El {idUsuario} debe': controller_Carrito.calcular_Precio_Total(int(idUsuario))})
     except ValueError:
@@ -111,7 +114,7 @@ def ver_precio_total(idUsuario):
 
 @app.route('/api/cart/qty/<idUsuario>', methods=['GET'])
 def ver_cantidad_total(idUsuario):
-    # Devuelve el total del productos en el carrito del usuario.
+    # Genera el request para visualizar la cantidad total de productos en un carrito.
     try:
         return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
     except ValueError:
@@ -119,7 +122,7 @@ def ver_cantidad_total(idUsuario):
 
 @app.route('/api/cart/<idUsuario>', methods=['DELETE'])
 def comprar_productos(idUsuario):
-    # Finaliza la compra de los productos dentro de un carrito.
+    # Genera el request para finalizar la compra (borra los producto de un carrito).
     try:
         mensaje = controller_Carrito.borrar_item_Carrito(int(idUsuario))
     except ValueError:
@@ -131,19 +134,19 @@ def comprar_productos(idUsuario):
 # region Usuarios:
 @app.route('/users/all')
 def listar_usuarios_HTML():
-    #
+    # URL para visualizar los usuarios registrados.
     return render_template(HTML_TEMPLATE, rendered_request='/api/users/all', rendered_response=listar_usuarios().data)
 
 # -|- URL de Usuario con prefijo -> /api -|-
 
 @app.route('/api/users/all', methods=['GET'])
 def listar_usuarios():
-    #
+    # Genera el request para visualizar los usuarios registrados.
     return jsonify({"users": controller_Usuarios.listar_usuario()})
 
 @app.route('/api/users/', methods = ['POST'])
 def crear_usuario():
-    #
+    # Genera el request para crear un usuario. (Tentativo)
     try:
         datos_usuario = request.get_json()
         creado = controller_Usuarios.crear_usuario(datos_usuario)
