@@ -28,7 +28,7 @@ def landing_page():
 
 @app.route('/products/all')
 def listar_productos_HTML():
-    #! Info.
+    # Retornar una lista de todos los productos disponibles.
     return render_template(HTML_TEMPLATE, rendered_request='/api/products/all',rendered_response=listar_productos().data)
 
 @app.route('/products/detail/<idProduct>')
