@@ -109,13 +109,22 @@ def ver_precio_total(idUsuario):
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
 
-@app.route('/api/cart/qty/<idUsuarios>', methods=['GET'])
+@app.route('/api/cart/qty/<idUsuario>', methods=['GET'])
 def ver_cantidad_total(idUsuario):
     # Devuelve el total del productos en el carrito del usuario.
     try:
         return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
+
+@app.route('/api/cart/<idUsuario>', methods=['DELETE'])
+def comprar_productos(idUsuario):
+    # Finaliza la compra de los productos dentro de un carrito.
+    try:
+        mensaje = controller_Carrito.borrar_item_Carrito(int(idUsuario))
+    except ValueError:
+        return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}),400)
+    return jsonify({"mensaje" : mensaje})
 
 #endregion
 

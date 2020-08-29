@@ -50,6 +50,7 @@ class Controller_Carritos:
             }
         self.carritos.insert(carrito)
     def borrar_item_Carrito(self, id_carrito, id_producto = None, cantidad = None):
+        #Si no id_producto y cantidad no reciben ningún parámetro, el método procederá a limpiar el carrito. (Compra Finalizada)
         if id_producto and cantidad:
             self.carritos.reducir_item_carrito(id_carrito, id_producto, cantidad)
             self.producto_Controller.aumentar_inventario(id_producto, cantidad)
