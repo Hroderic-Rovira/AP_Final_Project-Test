@@ -46,7 +46,7 @@ def filtrar_productos_HTML(idProducto):
 
 
 @app.route('/api/products/all', methods=['GET'])
-def listar_productos(flag):
+def listar_productos(flag = None):
     # Genera el request para listar los productos.
     if flag:
         return controller_Productos.listar_productos()
@@ -55,7 +55,7 @@ def listar_productos(flag):
 
 
 @app.route('/api/products/detail/<idProducto>', methods=['GET'])
-def filtrar_productos(idProducto, flag):
+def filtrar_productos(idProducto, flag = None):
     # Genera el request para filtrar un producto.
     try:
         if flag:
@@ -91,7 +91,7 @@ def ver_cantidad_total_HTML(idUsuario):
 
 
 @app.route('/api/cart/<idUsuario>', methods=['GET'])
-def ver_carrito(idUsuario, flag):
+def ver_carrito(idUsuario, flag = None):
     # Genera el request para visualizar el carrito de un usuario.
     try:
         if flag:
@@ -130,7 +130,7 @@ def eliminar_producto_carrito(idUsuario, idProducto):
 
 
 @app.route('/api/cart/price/<idUsuario>', methods=['GET'])
-def ver_precio_total(idUsuario, flag):
+def ver_precio_total(idUsuario, flag = None):
     # Genera el request para visualizar el precio total a pagar.
     try:
         if flag:
@@ -142,7 +142,7 @@ def ver_precio_total(idUsuario, flag):
 
 
 @app.route('/api/cart/qty/<idUsuario>', methods=['GET'])
-def ver_cantidad_total(idUsuario, flag):
+def ver_cantidad_total(idUsuario, flag = None):
     # Genera el request para visualizar la cantidad total de productos en un carrito.
     try:
         if flag:
@@ -181,7 +181,7 @@ def login_HTML():
 
 
 @app.route('/api/users/all', methods=['GET'])
-def listar_usuarios(flag):
+def listar_usuarios(flag = None):
     # Genera el request para visualizar los usuarios registrados.
     if flag:
         return controller_Usuarios.listar_usuario()
