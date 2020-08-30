@@ -124,6 +124,11 @@ class Controller_Usuarios:
         # Carga todos los usuarios dentro del JSON usuarios.json.
         return self.usuarios.cargar_contenido()
 
+    def filtrar_usuario(self, id_usuario):
+        # Retorn al información del usuario con ese ID.
+        print(self.usuarios.select(id_usuario))
+        return self.usuarios.select(id_usuario)
+
     def usuario_actual(self):
         # Carga los los ID de todos los usuarios.
         return [item.get('idUsuario') for item in self.usuarios.cargar_contenido()]

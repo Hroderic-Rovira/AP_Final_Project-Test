@@ -5,20 +5,19 @@
     <title>Document</title>
 </head>
 <body>
-    
     <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
         <h1>Carrito: </h1>
-        {% for item in rendered_response%}
-            {% for value in item['productos']%}
-            
-            <li><b>Código del Producto: </b>{{value['idProducto']}} |
-            <b>Nombre: </b>{{value['nombreProducto']}} |
-            <b>Cantidad dentro del carrito: </b>{{value['cantidadProducto']}} |
-            <b>Precio: </b>{{value['precioProducto']}} |</li>
-            
-            {% endfor %}
+
+            <p> El carrito del usuario <b>{{username['username']}}</b> contiene los siguientes productos: </p>
+            <br>
+        {% for item in rendered_response['productos']%}
+        <li>
+            <b>Código del Producto: </b>{{item['idProducto']}} |
+            <b>Nombre: </b>{{item['nombreProducto']}} |
+            <b>Cantidad: </b>{{item['cantidadProducto']}} |
+            <b>Precio: </b>{{item['precioProducto']}}
+        </li>
         {% endfor %}    
     </div>
-
 </body>
 </html>

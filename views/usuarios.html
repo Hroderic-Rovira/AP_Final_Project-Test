@@ -7,6 +7,10 @@
 <body>
     <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
         <h1>Lista de Usuarios:</h1>
+        
+        <p> Estos son todos los usuarios que se encuentran actualmente registrados en nuestra página.</p>
+        <br>
+
         {% for item in rendered_response%}
             <li><b>ID: </b>{{item['idUsuario']}} | <b> Username: </b>{{item['username']}}</li>
         {% endfor %}    

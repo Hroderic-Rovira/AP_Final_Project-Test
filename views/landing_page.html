@@ -9,19 +9,36 @@
 
 <body>
     <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
-    <h1> Lista de URL: </h1>
-    <h3>Usuarios:</h3>
-    <p><a href="users/login">a) Login</a></p>
-    <p><a href="users/all">b) Enlace para visualizar usuarios.</a></p>
-    <h3>Productos:</h3>
-    <p><a href="products/all">c) Enlace para visualizar productos.</a></p>
-    <p><a href="products/detail/1">d) Enlace para filtrar un producto.</a></p>
-    <h3>Carritos:</h3>
-    <p><a href="cart/100">e) Enlace para visualizar un carrito.</a></p>
-    <p><a href="cart/price/100">f) Enlace para visualizar el total a pagar.</a></p>
-    <p><a href="cart/qty/100">g) Enlace para visualizar el total de productos.</a></p>
-    </div>
+    {% if login == "Valid User" %}
 
+      
+        <h1> Lista de URL: </h1>
+        <h3>Usuarios:</h3>
+        <!-- <p><a href="users/login">a) Login</a></p> -->
+        <p><a href="users/all">a) Enlace para visualizar usuarios.</a></p>
+        <h3>Productos:</h3>
+        <p><a href="products/all">b) Enlace para visualizar productos.</a></p>
+        <p><a href="products/detail/1">c) Enlace para filtrar un producto.</a></p>
+        <h3>Carritos:</h3>
+        <p><a href="cart/100">d) Enlace para visualizar un carrito.</a></p>
+        <p><a href="cart/price/100">e) Enlace para visualizar el total a pagar.</a></p>
+        <p><a href="cart/qty/100">f) Enlace para visualizar el total de productos.</a></p>
+        
+
+    {% elif login == "First Time" %}
+
+        <h1>¡Bienvendio a nuestra página!</h1>
+        <br>
+        <p> Debe ingresar su nombre de usuario y su contraseña en la URL para poder ingresar.</p>
+    
+    {% elif login == "Invalid User" %}
+
+        <h1>¡Oops!</h1>
+        <br>
+        <p> Parece que el usuario que has ingresado no es válido. Vuelve a intentarlo </p>
+
+    {% endif %}
+</div>
 </body>
 
 </html>

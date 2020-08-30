@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, render_template, jsonify, make_response, abort
+from flask import request, render_template, jsonify, make_response, abort, redirect
 
 from controllers import Controller_Producto, Controller_Carritos, Controller_Usuarios
 
@@ -22,11 +22,23 @@ HTML_TEMPLATE = 'main_page.html'
 def error_404(e):
     return jsonify(error=str(e)), 404
 
-
-@app.route('/')
+@app.route('/', defaults = {'username': None, 'password': None})
+@app.route('/<username>/<password>')
 # URL para la página principal.
-def landing_page():
-    return render_template('landing_page.html')
+def login_HTML(username, password):
+    if username and password:
+        if login(username, password, True) == "Invalid User":
+            return render_template('landing_page.html', login = "Invalid User")
+        else:
+            return redirect('/main_page')
+    else: 
+        return render_template('landing_page.html', login = "First Time")
+
+@app.route('/main_page', methods=['POST','GET'])
+def main_page_HTML():
+    # URL para visualizar los usuarios registrados.
+    return render_template('landing_page.html', login = "Valid User")
+
 
 # region Productos:
 
@@ -34,13 +46,13 @@ def landing_page():
 @app.route('/products/all')
 def listar_productos_HTML():
     # URL para listar los productos.
-    return render_template('productos.html', rendered_request='/api/products/all', rendered_response=listar_productos(True))
+    return render_template('productos.html', rendered_request='/api/products/all', rendered_response=listar_productos(True), name = "listar" )
 
 
 @app.route('/products/detail/<idProducto>') #! El loop debe ser corregido.
 def filtrar_productos_HTML(idProducto):
     # URL para filtrar los productos.
-    return render_template('productos.html', rendered_request=f'/api/products/detail/{idProducto}', rendered_response=filtrar_productos(idProducto,True))
+    return render_template('productos.html', rendered_request=f'/api/products/detail/{idProducto}', rendered_response=filtrar_productos(idProducto,True), name = "filtrar" )
 
 # -|- URL de Productos con prefijo -> /api -|-
 
@@ -73,19 +85,19 @@ def filtrar_productos(idProducto, flag = None):
 @app.route('/cart/<idUsuario>')
 def ver_carrito_HTML(idUsuario):
     # URL para ver los contenidos de un usuario.
-    return render_template('carrito.html', rendered_request=f'/api/products/detail/{idUsuario}', rendered_response=ver_carrito(idUsuario,True))
+    return render_template('carrito.html', rendered_request=f'/api/products/detail/{idUsuario}', rendered_response=ver_carrito(idUsuario,True), username = filtrar_usuarios(idUsuario,True))
 
 
 @app.route('/cart/price/<idUsuario>')
 def ver_precio_total_HTML(idUsuario):
     # URL para ver el precio total de un carrito.
-    return render_template('total_pagar.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_precio_total(idUsuario,True))
+    return render_template('total_pagar.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_precio_total(idUsuario,True), username = filtrar_usuarios(idUsuario,True))
 
 
 @app.route('/cart/qty/<idUsuario>')
 def ver_cantidad_total_HTML(idUsuario):
     # URL para ver la cantidad total de productos en un carrito.
-    return render_template('total_cantidad.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_cantidad_total(idUsuario, True))
+    return render_template('total_cantidad.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_cantidad_total(idUsuario, True), username = filtrar_usuarios(idUsuario,True))
 
 # -|- URL de Carrito con prefijo -> /api -|-
 
@@ -166,19 +178,12 @@ def comprar_productos(idUsuario):
 
 # region Usuarios:
 
-
 @app.route('/users/all')
 def listar_usuarios_HTML():
     # URL para visualizar los usuarios registrados.
     return render_template('usuarios.html', rendered_request='/api/users/all', rendered_response=listar_usuarios(True))
 
-@app.route('/users/login')
-def login_HTML():
-    # URL para visualizar los usuarios registrados.
-    return render_template(HTML_TEMPLATE, rendered_request='/api/users/login', rendered_response=login())
-
 # -|- URL de Usuario con prefijo -> /api -|-
-
 
 @app.route('/api/users/all', methods=['GET'])
 def listar_usuarios(flag = None):
@@ -187,6 +192,14 @@ def listar_usuarios(flag = None):
         return controller_Usuarios.listar_usuario()
     else:
         return jsonify({"users": controller_Usuarios.listar_usuario()})
+
+@app.route('/api/users/all', methods=['GET']) # NUEVO.
+def filtrar_usuarios(idUsuario,flag = None):
+    # Genera el request para visualizar un usuario con un ID específico.
+    if flag:
+        return controller_Usuarios.filtrar_usuario(int(idUsuario))
+    else:
+        return jsonify({"user": controller_Usuarios.filtrar_usuario(idUsuario)})
 
 @app.route('/api/users/', methods=['POST'])
 def crear_usuario():
@@ -200,21 +213,24 @@ def crear_usuario():
     except Exception as mensaje_error:
         return make_response(jsonify({"message": str(mensaje_error)}), 400)
 
-@app.route("/api/users/login", methods=["POST"])
-def login():
-    if (
-        not request.json
-        or not "username" in request.json
-        or not "password" in request.json
-    ):
-        abort(400)
-    result = controller_Usuarios.login(
-        request.json.get("username"), request.json.get("password")
-    )
-    if result != "password_incorrecto" and result != "usuario_no_existe":
-        return jsonify({"message": 'Ha ingresado exitósamente.'}), 201
-    return jsonify({"message": "Usuario Inválido."}), 500
+@app.route("/api/users/login/<username>/<password>", methods=["POST"])
+def login(username, password, flag):
+    if flag:  
+        if username and password:
+            result = controller_Usuarios.login(username, password)
+            if result != "password_incorrecto" and result != "usuario_no_existe":
+                return "Valid User"
+        return "Invalid User"
+    else:
+        if not username and not password:
+            abort(400)
+        result = controller_Usuarios.login(username, password)
+        if result != "password_incorrecto" and result != "usuario_no_existe":
+            return make_response(jsonify({"message": 'Ha ingresado exitósamente.'}), 201)
+        return make_response(jsonify({"message": "Ha ingresado un usuario inválido."}), 500)
+
+
 
 # endregion
 
-app.run(host=HOST_ADRESS, debug = True) #! Debemos cambiar esto luego.
+app.run(host=HOST_ADRESS, debug = True)
