@@ -34,28 +34,34 @@ def landing_page():
 @app.route('/products/all')
 def listar_productos_HTML():
     # URL para listar los productos.
-    return render_template(HTML_TEMPLATE, rendered_request='/api/products/all', rendered_response=listar_productos().data)
+    return render_template('productos.html', rendered_request='/api/products/all', rendered_response=listar_productos(True))
 
 
-@app.route('/products/detail/<idProducto>')
+@app.route('/products/detail/<idProducto>') #! El loop debe ser corregido.
 def filtrar_productos_HTML(idProducto):
     # URL para filtrar los productos.
-    return render_template(HTML_TEMPLATE, rendered_request=f'/api/products/detail/{idProducto}', rendered_response=filtrar_productos(idProducto).data)
+    return render_template('productos.html', rendered_request=f'/api/products/detail/{idProducto}', rendered_response=filtrar_productos(idProducto,True))
 
 # -|- URL de Productos con prefijo -> /api -|-
 
 
 @app.route('/api/products/all', methods=['GET'])
-def listar_productos():
+def listar_productos(flag):
     # Genera el request para listar los productos.
-    return jsonify({"productos": controller_Productos.listar_productos()})
+    if flag:
+        return controller_Productos.listar_productos()
+    else:
+        return jsonify({"productos": controller_Productos.listar_productos()})
 
 
 @app.route('/api/products/detail/<idProducto>', methods=['GET'])
-def filtrar_productos(idProducto):
+def filtrar_productos(idProducto, flag):
     # Genera el request para filtrar un producto.
     try:
-        return jsonify({idProducto: controller_Productos.buscar_productos(int(idProducto))})
+        if flag:
+            return controller_Productos.buscar_productos(int(idProducto))
+        else:
+            return jsonify({idProducto: controller_Productos.buscar_productos(int(idProducto))})
     except ValueError:
         return make_response(jsonify({"message": f'El parámetro idProducto ({idProducto}) debe ser un número.'}), 400)
 
@@ -67,28 +73,32 @@ def filtrar_productos(idProducto):
 @app.route('/cart/<idUsuario>')
 def ver_carrito_HTML(idUsuario):
     # URL para ver los contenidos de un usuario.
-    return render_template(HTML_TEMPLATE, rendered_request=f'/api/products/detail/{idUsuario}', rendered_response=filtrar_productos(idUsuario).data)
+    return render_template('carrito.html', rendered_request=f'/api/products/detail/{idUsuario}', rendered_response=ver_carrito(idUsuario,True))
 
 
 @app.route('/cart/price/<idUsuario>')
 def ver_precio_total_HTML(idUsuario):
     # URL para ver el precio total de un carrito.
-    return render_template(HTML_TEMPLATE, render_request=f'/api/cart/{idUsuario}', rendered_response=ver_precio_total(idUsuario).data)
+    return render_template('total_pagar.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_precio_total(idUsuario,True))
 
 
 @app.route('/cart/qty/<idUsuario>')
 def ver_cantidad_total_HTML(idUsuario):
     # URL para ver la cantidad total de productos en un carrito.
-    return render_template(HTML_TEMPLATE, render_request=f'/api/cart/{idUsuario}', rendered_response=ver_cantidad_total(idUsuario).data)
+    return render_template('total_cantidad.html', render_request=f'/api/cart/{idUsuario}', rendered_response=ver_cantidad_total(idUsuario, True))
 
 # -|- URL de Carrito con prefijo -> /api -|-
 
 
 @app.route('/api/cart/<idUsuario>', methods=['GET'])
-def ver_carrito(idUsuario):
+def ver_carrito(idUsuario, flag):
     # Genera el request para visualizar el carrito de un usuario.
     try:
-        return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
+        if flag:
+            return controller_Carrito.filtrar_carritos(int(idUsuario))
+        else:
+            return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
+
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}), 400)
 
@@ -120,19 +130,25 @@ def eliminar_producto_carrito(idUsuario, idProducto):
 
 
 @app.route('/api/cart/price/<idUsuario>', methods=['GET'])
-def ver_precio_total(idUsuario):
+def ver_precio_total(idUsuario, flag):
     # Genera el request para visualizar el precio total a pagar.
     try:
-        return jsonify({f'El {idUsuario} debe': controller_Carrito.calcular_Precio_Total(int(idUsuario))})
+        if flag:
+            controller_Carrito.calcular_Precio_Total(int(idUsuario))
+        else:
+            return jsonify({f'El {idUsuario} debe': controller_Carrito.calcular_Precio_Total(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}), 400)
 
 
 @app.route('/api/cart/qty/<idUsuario>', methods=['GET'])
-def ver_cantidad_total(idUsuario):
+def ver_cantidad_total(idUsuario, flag):
     # Genera el request para visualizar la cantidad total de productos en un carrito.
     try:
-        return jsonify({idUsuario: controller_Carrito.filtrar_carritos(int(idUsuario))})
+        if flag:
+            controller_Carrito.calcular_Cantidad_Total(int(idUsuario))
+        else:
+            return jsonify({idUsuario: controller_Carrito.calcular_Cantidad_Total(int(idUsuario))})
     except ValueError:
         return make_response(jsonify({"message": f'El parametro idUsuario debe ser un número'}), 400)
 
@@ -154,21 +170,23 @@ def comprar_productos(idUsuario):
 @app.route('/users/all')
 def listar_usuarios_HTML():
     # URL para visualizar los usuarios registrados.
-    return render_template(HTML_TEMPLATE, rendered_request='/api/users/all', rendered_response=listar_usuarios().data)
+    return render_template('usuarios.html', rendered_request='/api/users/all', rendered_response=listar_usuarios(True))
 
 @app.route('/users/login')
 def login_HTML():
     # URL para visualizar los usuarios registrados.
-    return render_template(HTML_TEMPLATE, rendered_request='/api/users/login', rendered_response=login().data)
+    return render_template(HTML_TEMPLATE, rendered_request='/api/users/login', rendered_response=login())
 
 # -|- URL de Usuario con prefijo -> /api -|-
 
 
 @app.route('/api/users/all', methods=['GET'])
-def listar_usuarios():
+def listar_usuarios(flag):
     # Genera el request para visualizar los usuarios registrados.
-    return jsonify({"users": controller_Usuarios.listar_usuario()})
-
+    if flag:
+        return controller_Usuarios.listar_usuario()
+    else:
+        return jsonify({"users": controller_Usuarios.listar_usuario()})
 
 @app.route('/api/users/', methods=['POST'])
 def crear_usuario():
@@ -181,8 +199,6 @@ def crear_usuario():
         return jsonify({"message": f"El usuario no pudo ser creado. El ID ({datos_usuario.get('idUsuario')}) ya está en uso."})
     except Exception as mensaje_error:
         return make_response(jsonify({"message": str(mensaje_error)}), 400)
-# endregion
-
 
 @app.route("/api/users/login", methods=["POST"])
 def login():
@@ -196,9 +212,9 @@ def login():
         request.json.get("username"), request.json.get("password")
     )
     if result != "password_incorrecto" and result != "usuario_no_existe":
-        usuario_logeado = result
-        return jsonify({"message": result}), 201
-    return jsonify({"result": "An error occurred"}), 500
+        return jsonify({"message": 'Ha ingresado exitósamente.'}), 201
+    return jsonify({"message": "Usuario Inválido."}), 500
 
+# endregion
 
-app.run(host=HOST_ADRESS)
+app.run(host=HOST_ADRESS, debug = True) #! Debemos cambiar esto luego.

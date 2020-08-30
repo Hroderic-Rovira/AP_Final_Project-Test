@@ -1,1 +1,1 @@
-[{"idCarrito": 100, "productos": [{"idProducto": 1, "nombreProducto": "TV", "cantidadProducto": 0, "precioProducto": 100000}]}, {"idCarrito": 200, "productos": []}, {"idCarrito": 300, "productos": []}, {"idCarrito": 300, "productos": []}]
+[{"idCarrito": 100, "productos": [{"idProducto": 1, "nombreProducto": "TV", "cantidadProducto": 0, "precioProducto": 100000}]}, {"idCarrito": 200, "productos": []}, {"idCarrito": 300, "productos": []}, {"idCarrito": 300, "productos": []}, {"idCarrito": 500, "productos": []}]

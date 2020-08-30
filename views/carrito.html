@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
+        <h1>Carrito: </h1>
+        {% for item in rendered_response%}
+            {% for value in item['productos']%}
+            
+            <li><b>Código del Producto: </b>{{value['idProducto']}} |
+            <b>Nombre: </b>{{value['nombreProducto']}} |
+            <b>Cantidad dentro del carrito: </b>{{value['cantidadProducto']}} |
+            <b>Precio: </b>{{value['precioProducto']}} |</li>
+            
+            {% endfor %}
+        {% endfor %}    
+    </div>
+
+</body>
+</html>
