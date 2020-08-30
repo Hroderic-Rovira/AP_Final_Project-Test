@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
+        <h1>Lista de Productos:</h1>
+        {% for item in rendered_response%}
+            <li><b>Código del Producto: </b>{{item['idProducto']}} |
+                <b>Nombre: </b>{{item['nombreProducto']}} |
+                <b>Inventario: </b>{{item['cantidadProducto']}} |
+                <b>Precio: </b>{{item['precioProducto']}} |</li>
+        {% endfor %}    
+    </div>
+
+</body>
+</html>
