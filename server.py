@@ -134,7 +134,7 @@ def ver_precio_total(idUsuario, flag = None):
     # Genera el request para visualizar el precio total a pagar.
     try:
         if flag:
-            controller_Carrito.calcular_Precio_Total(int(idUsuario))
+            return controller_Carrito.calcular_Precio_Total(int(idUsuario))
         else:
             return jsonify({f'El {idUsuario} debe': controller_Carrito.calcular_Precio_Total(int(idUsuario))})
     except ValueError:
@@ -146,7 +146,7 @@ def ver_cantidad_total(idUsuario, flag = None):
     # Genera el request para visualizar la cantidad total de productos en un carrito.
     try:
         if flag:
-            controller_Carrito.calcular_Cantidad_Total(int(idUsuario))
+            return controller_Carrito.calcular_Cantidad_Total(int(idUsuario))
         else:
             return jsonify({idUsuario: controller_Carrito.calcular_Cantidad_Total(int(idUsuario))})
     except ValueError:
