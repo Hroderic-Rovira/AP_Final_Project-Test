@@ -5,31 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Principal</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
 </head>
 
 <body>
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
+    <div class="main_div">
     {% if login == "Valid User" %}
-
-      
+        <div class="title_div">
         <h1> Lista de URL: </h1>
+        </div>
+        <br>
+        <br>
         <h3>Usuarios:</h3>
         <!-- <p><a href="users/login">a) Login</a></p> -->
-        <p><a href="users/all">a) Enlace para visualizar usuarios.</a></p>
+        <p><a href="users/all">Enlace para visualizar usuarios.</a></p>
+        <p><a href="/users/filtrar/100">Enlace para filtrar un usuario.</a></p>
         <h3>Productos:</h3>
-        <p><a href="products/all">b) Enlace para visualizar productos.</a></p>
-        <p><a href="products/detail/1">c) Enlace para filtrar un producto.</a></p>
+        <p><a href="products/all">Enlace para visualizar productos.</a></p>
+        <p><a href="products/detail/1">Enlace para filtrar un producto.</a></p>
         <h3>Carritos:</h3>
-        <p><a href="cart/100">d) Enlace para visualizar un carrito.</a></p>
-        <p><a href="cart/price/100">e) Enlace para visualizar el total a pagar.</a></p>
-        <p><a href="cart/qty/100">f) Enlace para visualizar el total de productos.</a></p>
+        <p><a href="cart/100">Enlace para visualizar un carrito.</a></p>
+        <p><a href="cart/price/100">Enlace para visualizar el total a pagar.</a></p>
+        <p><a href="cart/qty/100">Enlace para visualizar el total de productos.</a></p>
         
 
     {% elif login == "First Time" %}
 
-        <h1>¡Bienvendio a nuestra página!</h1>
+        <h1>¡Bienvenido a nuestra página!</h1>
         <br>
-        <p> Debe ingresar su nombre de usuario y su contraseña en la URL para poder ingresar.</p>
+        <p> Debe ingresar su nombre de usuario y su contraseña en la URL para poder ingresar. <b>Ejemplo: http/[IP]:5000/admin/12345</b></p>
     
     {% elif login == "Invalid User" %}
 

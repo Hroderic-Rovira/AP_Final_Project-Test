@@ -2,22 +2,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página del Carrito</title>
 </head>
 <body>
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
-        <h1>Carrito: </h1>
-
-            <p> El carrito del usuario <b>{{username['username']}}</b> contiene los siguientes productos: </p>
-            <br>
-        {% for item in rendered_response['productos']%}
-        <li>
-            <b>Código del Producto: </b>{{item['idProducto']}} |
-            <b>Nombre: </b>{{item['nombreProducto']}} |
-            <b>Cantidad: </b>{{item['cantidadProducto']}} |
-            <b>Precio: </b>{{item['precioProducto']}}
-        </li>
-        {% endfor %}    
+    <div class="main_div">
+            <div class="title_div"><h1>Carrito: </h1></div>
+            <div class="info_div">
+                <p> El carrito del usuario <b>{{username['username']}}</b> contiene los siguientes productos: </p>
+            </div>
+            <div class="data_div">
+                {% for item in rendered_response['productos']%}
+                <li>
+                    <b>Código del Producto: </b>{{item['idProducto']}} |
+                    <b>Nombre: </b>{{item['nombreProducto']}} |
+                    <b>Cantidad: </b>{{item['cantidadProducto']}} |
+                    <b>Precio: </b>{{item['precioProducto']}}
+                </li>
+                {% endfor %}  
+            </div>
     </div>
 </body>
 </html>

@@ -16,7 +16,6 @@ HTML_TEMPLATE = 'main_page.html'
 
 # endregion
 
-
 @app.errorhandler(404)
 # Handler para el error 404.
 def error_404(e):
@@ -39,23 +38,19 @@ def main_page_HTML():
     # URL para visualizar los usuarios registrados.
     return render_template('landing_page.html', login = "Valid User")
 
-
 # region Productos:
-
 
 @app.route('/products/all')
 def listar_productos_HTML():
     # URL para listar los productos.
     return render_template('productos.html', rendered_request='/api/products/all', rendered_response=listar_productos(True), name = "listar" )
 
-
-@app.route('/products/detail/<idProducto>') #! El loop debe ser corregido.
+@app.route('/products/detail/<idProducto>')
 def filtrar_productos_HTML(idProducto):
     # URL para filtrar los productos.
     return render_template('productos.html', rendered_request=f'/api/products/detail/{idProducto}', rendered_response=filtrar_productos(idProducto,True), name = "filtrar" )
 
 # -|- URL de Productos con prefijo -> /api -|-
-
 
 @app.route('/api/products/all', methods=['GET'])
 def listar_productos(flag = None):
@@ -65,9 +60,8 @@ def listar_productos(flag = None):
     else:
         return jsonify({"productos": controller_Productos.listar_productos()})
 
-
 @app.route('/api/products/detail/<idProducto>', methods=['GET'])
-def filtrar_productos(idProducto, flag = None):
+def filtrar_productos(idProducto, flag = None): #! Check why it doesn't work.
     # Genera el request para filtrar un producto.
     try:
         if flag:
@@ -181,7 +175,12 @@ def comprar_productos(idUsuario):
 @app.route('/users/all')
 def listar_usuarios_HTML():
     # URL para visualizar los usuarios registrados.
-    return render_template('usuarios.html', rendered_request='/api/users/all', rendered_response=listar_usuarios(True))
+    return render_template('usuarios.html', rendered_request='/api/users/all', rendered_response=listar_usuarios(True), name = "listar")
+
+@app.route('/users/filtrar/<idUsuario>')
+def filtrar_usuarios_HTML(idUsuario):
+    # URL para filtrar un usuario en específico.
+    return render_template('usuarios.html', rendered_request='/api/users/filtrar/<idUsuario>', rendered_response=filtrar_usuarios(idUsuario, True), name = "filtrar")
 
 # -|- URL de Usuario con prefijo -> /api -|-
 
@@ -193,13 +192,13 @@ def listar_usuarios(flag = None):
     else:
         return jsonify({"users": controller_Usuarios.listar_usuario()})
 
-@app.route('/api/users/all', methods=['GET']) # NUEVO.
+@app.route('/api/users/filtrar/<idUsuario>', methods=['GET'])
 def filtrar_usuarios(idUsuario,flag = None):
     # Genera el request para visualizar un usuario con un ID específico.
     if flag:
         return controller_Usuarios.filtrar_usuario(int(idUsuario))
     else:
-        return jsonify({"user": controller_Usuarios.filtrar_usuario(idUsuario)})
+        return jsonify({'user_info': controller_Usuarios.filtrar_usuario(int(idUsuario))})
 
 @app.route('/api/users/', methods=['POST'])
 def crear_usuario():
@@ -214,7 +213,7 @@ def crear_usuario():
         return make_response(jsonify({"message": str(mensaje_error)}), 400)
 
 @app.route("/api/users/login/<username>/<password>", methods=["POST"])
-def login(username, password, flag):
+def login(username, password, flag = None):
     if flag:  
         if username and password:
             result = controller_Usuarios.login(username, password)

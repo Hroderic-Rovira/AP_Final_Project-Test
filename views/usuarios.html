@@ -2,19 +2,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página </title>
 </head>
-<body>
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
-        <h1>Lista de Usuarios:</h1>
-        
-        <p> Estos son todos los usuarios que se encuentran actualmente registrados en nuestra página.</p>
-        <br>
 
+<body>
+    <div class="main_div">
+    {% if name == "listar" %}
+        <div class="title_div">
+        <h1>Lista de Usuarios:</h1>
+        </div>
+        <div class="info_div">
+            <p> Estos son todos los usuarios que se encuentran actualmente registrados en nuestra página:</p>
+        </div>
+        <div class="data_div">
         {% for item in rendered_response%}
             <li><b>ID: </b>{{item['idUsuario']}} | <b> Username: </b>{{item['username']}}</li>
         {% endfor %}    
+        </div>
+    {% else %}
+        <div class="title_div">
+        <h1>Filtrar de Usuarios:</h1>
+        </div>
+        <div class="info_div">
+            <p> Esta es la información del usuario filtrado: </p>
+        </div>
+        <div class="data_div">
+            <li>
+                <b>ID del Usuario: </b>{{rendered_response['idUsuario']}} |
+                <b>Username: </b>{{rendered_response['username']}} |
+                <b>ID del Carrito: </b>{{rendered_response['idCarrito']}}
+            </li>   
+        </div>
+    {% endif %}
     </div>
-
 </body>
 </html>

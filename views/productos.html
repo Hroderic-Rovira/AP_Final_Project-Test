@@ -2,17 +2,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página de Productos</title>
 </head>
 <body>
 
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
+    <div class="main_div">
         
         {% if name == "listar" %}
-        
-            <h1>Lista de Productos:</h1>
+            <div class="title_div"><h1>Lista de Productos:</h1></div>
+            <div class="info_div">
             <p>Estos son todos los productos que se encuentran disponibles: </p>
-            <br>
+            </div>
+            <div class="data_div">
             {% for value in rendered_response %}
                 <li>
 
@@ -22,18 +25,20 @@
                     <b>Precio: </b>{{value['precioProducto']}}
                 </li>       
             {% endfor %}    
-
+            </div>
         {% else %}
-
-            <h1>Filtrar de Productos:</h1>
-            <p>Estos son todos los productos que se encuentran disponibles: </p>
-            <br>
+            <div class="title_div"><h1><h1>Filtrar de Productos: </h1></h1></div>
+            <div class="info_div">
+                <p>Esta es la información del producto filtrado: </p>
+            </div>
+            <div class="data_div">
                 <li>
                     <b>Código del Producto: </b>{{rendered_response['idProducto']}} |
                     <b>Nombre: </b>{{rendered_response['nombreProducto']}} |
                     <b>Inventario: </b>{{rendered_response['cantidadProducto']}} |
                     <b>Precio: </b>{{rendered_response['precioProducto']}}
-                </li>       
+                </li>
+            </div>       
         {% endif %}
     </div>
 

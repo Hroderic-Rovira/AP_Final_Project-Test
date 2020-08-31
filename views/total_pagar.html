@@ -2,12 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página Total a Pagar</title>
 </head>
 <body>
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
-        <h1>Lista de Productos:</h1>
-            <b>El total a pagar del cliente </b>{{username["username"]}}<b> es: </b>{{rendered_response}} <b> colones.</b>
+    <div class="main_div">
+        <div class="title_div"><h1>Total a Pagar:</h1></div>
+            <div class="info_div">
+                <p> Información del Carrito: </p>
+            </div>
+            <div class="data_div">
+                <b>El total a pagar del cliente </b>{{username["username"]}}<b> es: </b>{{rendered_response}} <b> colones.</b>
+        </div>
     </div>
 </body>
 </html>

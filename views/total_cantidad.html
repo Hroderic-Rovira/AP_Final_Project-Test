@@ -2,12 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página Total Cantidad</title>
 </head>
 <body>
-    <div style="background-color: rgba(218, 218, 218, 0.397); color: rgb(41, 41, 41); padding: 10px;">
-        <h1>Lista de Productos:</h1>
-            <b>La cantidad de productos que se encuentran en el carrito del cliente </b>{{username["username"]}}<b> es: </b> {{rendered_response}} <b>.</b>
+    <div class="main_div">
+        <div class="title_div"><h1>Cantidad Total de Productos en Carrito:</h1></div>
+            <div class="info_div">
+                <p> Información del Carrito: </p>
+            </div>
+            <div class="data_div">
+                <b>La cantidad de productos que se encuentran en el carrito del cliente </b>{{username["username"]}}<b> es: </b> {{rendered_response}} <b>.</b>
+        </div>
     </div>
 </body>
 </html>
