@@ -1,0 +1,104 @@
+/* Estilos para equipos grandes */
+
+@media screen and (min-width: 601px) {
+
+    .main_div
+    {
+        font-family: 'Allerta Stencil';
+        text-align: center;
+        background-color: rgb(255, 255, 255);
+        color: #094c66; 
+        position: absolute;
+        width: 50%; height: 100%;
+        left: 25%; right: 30%; top: 0%; bottom: 0%;
+     
+        padding-top: 10%;
+
+        border-style: solid;
+        border-width: 0.5%;
+        border-color: #006986;
+    }
+    /* Elementos Generales */
+    h1
+    {
+        font-size:4.5vw;
+    }
+    h3
+    {
+        font-size:2.5vw;
+    }
+    p
+    {
+        color: #0b5c7c;
+        font-size:0.9vw;
+    }
+    /* Específico */
+    #left_square{
+        position: absolute;
+        background-color: #002f3b;
+        top: 0%;bottom: 0%;
+        width: 10%;
+
+    }
+    #right_square
+    {
+        position: absolute;
+        background-color: #002f3b;
+        top: 0%;bottom: 0%;right: 0%;
+        width: 10%;
+        height: 100%;
+
+
+    }
+}
+  
+/* Estilos para equipos pequeños */
+@media screen and (max-width: 600px) 
+{
+    .main_div
+    {
+        font-family: 'Allerta Stencil';
+        text-align: center;
+        background-color: rgb(255, 255, 255);
+        color: #094c66; 
+        position: absolute;
+        width: 85%; height: 65%;
+        left: 7.5%; right: 7.5%; top: 15%; bottom: 15%;
+     
+        padding-top: 30%;
+
+        border-style: solid;
+        border-width: 0.5%;
+        border-color: #006986;
+    }
+    /* Elementos Generales */
+    h1
+    {
+        font-size:10.5vw;
+    }
+    h3
+    {
+        font-size:4.5vw;
+    }
+    p
+    {
+        color: #0b5c7c;
+        font-size:2.5vw;
+    }
+    /* Específico */
+    #left_square{
+
+        display: none;
+
+    }
+    #right_square
+    {
+        display: none;
+    }
+}
+body
+{
+    background-color: #003746;
+    height: 100%;
+    width: 100%;
+}
