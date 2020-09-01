@@ -2,43 +2,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
     
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
-    <title>Página de Productos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='grid_display.css')}}"/>
+    <title>Página de Productos | Proyecto</title>
 </head>
 <body>
 
     <div class="main_div">
         
         {% if name == "listar" %}
-            <div class="title_div"><h1>Lista de Productos:</h1></div>
+            <div class="title_div"><h1>Lista de Productos</h1></div>
             <div class="info_div">
             <p>Estos son todos los productos que se encuentran disponibles: </p>
             </div>
             <div class="data_div">
-            {% for value in rendered_response %}
-                <li>
 
-                    <b>Código del Producto: </b>{{value['idProducto']}} |
-                    <b>Nombre: </b>{{value['nombreProducto']}} |
-                    <b>Inventario: </b>{{value['cantidadProducto']}} |
-                    <b>Precio: </b>{{value['precioProducto']}}
-                </li>       
-            {% endfor %}    
+                <div class="container"> <!-- Aquí comineza el gridview de bootstrap -->
+                    <div class="row">
+                        <div class="col grid_div_title">Código </div>
+                        <div class="col grid_div_title">Nombre </div>
+                        <div class="col grid_div_title">Inventario </div>
+                        <div class="col grid_div_title">Precio </div>
+                        <div class="w-100"></div>
+    
+                        {% for item in rendered_response%}
+                        <div class="col grid_div_data">{{item['idProducto']}}</div>
+                        <div class="col grid_div_data">{{item['nombreProducto']}}</div>
+                        <div class="col grid_div_data">{{item['cantidadProducto']}}</div>
+                        <div class="col grid_div_data">{{item['precioProducto']}}</div>
+                        <div class="w-100"></div>
+                        {% endfor %}
+    
+                    </div>
+                </div>
             </div>
+                <img src="https://www.clipartkey.com/mpngs/m/166-1660263_white-database-icon-png.png" class="img-fluid img_desk">
         {% else %}
-            <div class="title_div"><h1><h1>Filtrar de Productos: </h1></h1></div>
+            <div class="title_div"><h1><h1>Filtrar de Productos</h1></h1></div>
             <div class="info_div">
                 <p>Esta es la información del producto filtrado: </p>
             </div>
-            <div class="data_div">
-                <li>
-                    <b>Código del Producto: </b>{{rendered_response['idProducto']}} |
-                    <b>Nombre: </b>{{rendered_response['nombreProducto']}} |
-                    <b>Inventario: </b>{{rendered_response['cantidadProducto']}} |
-                    <b>Precio: </b>{{rendered_response['precioProducto']}}
-                </li>
-            </div>       
+            <div class="text_div">
+                <div class="row">
+                    <div class="col grid_div_title">ID Producto Filtrado</div>
+                    <div class="col grid_div_title">Nombre del Producto Filtrado</div>
+                    <div class="col grid_div_title">Cantidad Disponible</div>
+                    <div class="col grid_div_title">Precio del Producto Filtrado</div>
+                    <div class="w-100"></div>
+    
+                    <div class="col grid_div_data">{{rendered_response['idProducto']}}</div>
+                    <div class="col grid_div_data">{{rendered_response['nombreProducto']}}</div>
+                    <div class="col grid_div_data">{{rendered_response['cantidadProducto']}}</div>
+                    <div class="col grid_div_data">{{rendered_response['precioProducto']}}</div>
+                    <div class="w-100"></div>
+    
+                </div>
+            </div>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_desk ">   
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_mob">
         {% endif %}
     </div>
 

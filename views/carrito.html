@@ -2,25 +2,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
-    <title>Página del Carrito</title>
+    
+    <!-- Bootstrap CSS -->
+    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='grid_display.css')}}"/>
+
+    <title>Página del Carrito | Proyecto </title>
 </head>
 <body>
+    
+
     <div class="main_div">
-            <div class="title_div"><h1>Carrito: </h1></div>
+            <div class="title_div"><h1>Contenido del Carrito </h1></div>
             <div class="info_div">
                 <p> El carrito del usuario <b>{{username['username']}}</b> contiene los siguientes productos: </p>
             </div>
-            <div class="data_div">
-                {% for item in rendered_response['productos']%}
-                <li>
-                    <b>Código del Producto: </b>{{item['idProducto']}} |
-                    <b>Nombre: </b>{{item['nombreProducto']}} |
-                    <b>Cantidad: </b>{{item['cantidadProducto']}} |
-                    <b>Precio: </b>{{item['precioProducto']}}
-                </li>
-                {% endfor %}  
-            </div>
+
+            <div class="text_div">
+                <div class="row">
+                    <div class="col grid_div_title">Código del Producto en Carrito</div>
+                    <div class="col grid_div_title">Nombre del Producto</div>
+                    <div class="col grid_div_title">Unidades a Comprar</div>
+                    <div class="col grid_div_title">Precio</div>
+                    <div class="w-100"></div>
+                    {% for item in rendered_response['productos']%}
+                    <div class="col grid_div_data">{{item['idProducto']}}</div>
+                    <div class="col grid_div_data">{{item['nombreProducto']}}</div>
+                    <div class="col grid_div_data">{{item['cantidadProducto']}}</div>
+                    <div class="col grid_div_data">{{item['precioProducto']}}</div>
+                    <div class="w-100"></div>
+                    {% endfor %}  
+                </div>
+            </div>   
+
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_desk">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_mob">
+
     </div>
+
+    <!-- Scripts de Bootstrap --> <!-- -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> <!-- -->
 </body>
 </html>

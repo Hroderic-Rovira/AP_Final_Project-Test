@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='landing_page_style.css')}}"/>
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
+    <title>Página Principal | Proyecto AP </title>
+
 </head>
-
 <body>
     <div class="main_div">
-    {% if login == "Valid User" %}
+
+        {% if login == "Valid User" %}
         <div class="title_div">
-        <h1> Lista de URL: </h1>
+        <h1><b>Menú Principal </b> </h1>
         </div>
         <br>
         <br>
+        <div id="url_list_div">
         <h3>Usuarios:</h3>
         <!-- <p><a href="users/login">a) Login</a></p> -->
         <p><a href="users/all">Enlace para visualizar usuarios.</a></p>
@@ -28,22 +33,45 @@
         <p><a href="cart/100">Enlace para visualizar un carrito.</a></p>
         <p><a href="cart/price/100">Enlace para visualizar el total a pagar.</a></p>
         <p><a href="cart/qty/100">Enlace para visualizar el total de productos.</a></p>
-        
+        </div>
 
     {% elif login == "First Time" %}
 
-        <h1>¡Bienvenido a nuestra página!</h1>
+        <div class="title_div">
+            <h1>¡Bienvenid@ a nuestra página!</h1>
+        </div>
+        <div class="info_div">
         <br>
-        <p> Debe ingresar su nombre de usuario y su contraseña en la URL para poder ingresar. <b>Ejemplo: http/[IP]:5000/admin/12345</b></p>
-    
+        <p class="font-weight-light"> Debe ingresar su nombre de usuario y su contraseña en la URL para poder ingresar.</p>
+            <div id = "message_one" class="alert alert-dark" role="alert">
+                <b>Ejemplo: http/[IP]/admin/12345</b>
+            </div>
+        </div>
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cloud-API-Logo.svg/1139px-Cloud-API-Logo.svg.png" class="img-fluid img_mob">
+            
     {% elif login == "Invalid User" %}
 
-        <h1>¡Oops!</h1>
+        <div class="title_div">
+            <h1>¡Oops!</h1>
+        </div>
+        <div class="info_div">
+            <br>
+            <p> Parece que ha ocurrido un error... </p>
+            <div class="alert alert-danger" role="alert">
+                ERROR: Datos Incorrectos
+              </div>
+            </div>
         <br>
-        <p> Parece que el usuario que has ingresado no es válido. Vuelve a intentarlo </p>
-
+        
+        <img src="https://www.seekpng.com/png/full/334-3345964_error-icon-download-attention-symbol.png" class="img-fluid img_mob">
+            
     {% endif %}
-</div>
-</body>
 
+    </div>
+    <!-- Scripts de Bootstrap --> <!-- -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> <!-- -->
+</body>
 </html>

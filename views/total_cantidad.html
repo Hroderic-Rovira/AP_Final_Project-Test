@@ -2,18 +2,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
-    <title>Página Total Cantidad</title>
+    
+    <!-- Bootstrap CSS -->
+    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='info_display.css')}}"/>
+    <title>Página Total Cantidad | Proyecto</title>
 </head>
-<body>
-    <div class="main_div">
-        <div class="title_div"><h1>Cantidad Total de Productos en Carrito:</h1></div>
-            <div class="info_div">
-                <p> Información del Carrito: </p>
+    <body>
+        <div class="main_div">
+            <div class="title_div"><h1>Cantidad Total de Productos en Carrito:</h1></div>
+                <div class="info_div">
+                    <p> Información del Carrito: </p>
+                </div>
+                <div class="data_div">
+                    
             </div>
-            <div class="data_div">
-                <b>La cantidad de productos que se encuentran en el carrito del cliente </b>{{username["username"]}}<b> es: </b> {{rendered_response}} <b>.</b>
         </div>
-    </div>
-</body>
+        <div class="main_div">
+            <div class="title_div"><h1>Total Cantidad</h1></div>
+                <div class="info_div">
+                    <p> Aquí se desplegará el total del productos en el carrito del cliente: </p>
+                </div>
+                <div class="data_div jumbotron jumbotron-fluid">
+                    
+                        <div class="container">
+                          <h3 class="display-4 h3_font">La cantidad de productos que se encuentran en el carrito del cliente <b>{{username["username"]}}</b> es: <b> {{rendered_response}} </b>.</h3>
+                          <br>
+                          <p class="lead p_font">Para proceder con su compra, ingrese el siguiente URL: http://www.e-shopcr.tk/api/cart/{ID_Cliente} .</p>
+                        </div>
+            </div>
+            <img src="https://img.icons8.com/cotton/2x/overview-pages-1.png" class="img-fluid img_desk">
+        </div>
+        <!-- Scripts de Bootstrap --> <!-- -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> <!-- -->
+    </body>
 </html>

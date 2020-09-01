@@ -3,39 +3,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main_style.css')}}"/>
-    <title>Página </title>
+    <!-- Bootstrap CSS -->
+    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='grid_display.css')}}"/>
+    <title> Página de Usuarios | Proyecto </title>
 </head>
 
 <body>
     <div class="main_div">
     {% if name == "listar" %}
         <div class="title_div">
-        <h1>Lista de Usuarios:</h1>
+        <h1>Lista de Usuarios</h1>
         </div>
         <div class="info_div">
+
             <p> Estos son todos los usuarios que se encuentran actualmente registrados en nuestra página:</p>
         </div>
         <div class="data_div">
-        {% for item in rendered_response%}
-            <li><b>ID: </b>{{item['idUsuario']}} | <b> Username: </b>{{item['username']}}</li>
-        {% endfor %}    
+
+            <div class="container"> <!-- Aquí comineza el gridview de bootstrap -->
+                <div class="row">
+                    <div class="col grid_div_title">ID del Usuario</div>
+                    <div class="col grid_div_title">Nombre de Usuario</div>
+                    <div class="w-100"></div>
+
+                    {% for item in rendered_response%}
+                    <div class="col grid_div_data">{{item['idUsuario']}}</div>
+                    <div class="col grid_div_data">{{item['username']}}</div>
+                    <div class="w-100"></div>
+                    {% endfor %}
+
+                </div>
+            </div>
         </div>
+        <img src="https://www.clipartkey.com/mpngs/m/166-1660263_white-database-icon-png.png" class="img-fluid img_desk">
     {% else %}
         <div class="title_div">
         <h1>Filtrar de Usuarios:</h1>
         </div>
         <div class="info_div">
-            <p> Esta es la información del usuario filtrado: </p>
+            <p> Esta es la información que se ha encontrado con ese ID</p>
         </div>
-        <div class="data_div">
-            <li>
-                <b>ID del Usuario: </b>{{rendered_response['idUsuario']}} |
-                <b>Username: </b>{{rendered_response['username']}} |
-                <b>ID del Carrito: </b>{{rendered_response['idCarrito']}}
-            </li>   
+        <div class="text_div">
+            <div class="row">
+                <div class="col grid_div_title">ID del Usuario Filtrado </div>
+                <div class="col grid_div_title">Nombre del Usuario Filtrado</div>
+                <div class="col grid_div_title">ID del Carrito del Usuario</div>
+                <div class="w-100"></div>
+
+                <div class="col grid_div_data">{{rendered_response['idUsuario']}}</div>
+                <div class="col grid_div_data">{{rendered_response['username']}}</div>
+                <div class="col grid_div_data">{{rendered_response['idCarrito']}}</div>
+                <div class="w-100"></div>
+
+            </div>
         </div>
+
+        <img id="test" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_desk">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSudJHotLLPkwzD3SI6zc1JMVtr587uGIuu3A&usqp=CAU" class="img-fluid img_mob">
+
     {% endif %}
     </div>
+
+    <!-- Scripts de Bootstrap --> <!-- -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> <!-- -->
 </body>
 </html>
