@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
     
     <!-- Bootstrap CSS -->
-    <!-- --> <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"><!-- -->
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Static CSS -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='landing_page_style.css')}}"/>
 
     <title>Página Principal | Proyecto AP </title>
-
 </head>
 <body>
     <div class="main_div">
@@ -46,10 +46,24 @@
             <div id = "message_one" class="alert alert-dark" role="alert">
                 <b>Ejemplo: http/[IP]/admin/12345</b>
             </div>
-        </div>
+                <!-- Enlaces para GitHub OAuth y Swagger Documentation -->
 
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cloud-API-Logo.svg/1139px-Cloud-API-Logo.svg.png" class="img-fluid img_mob">
+            <div id="login_urls">
+                <div class="div_enlace_externo"> <!-- Enlace a Swagger Hub -->
+                    <img class="website_logo" src="data:image/png;base64,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">
+                    <a class="OAuthLink" href="https://app.swaggerhub.com/apis-docs/e-shopcr/API_Store_UAM/0.3"> Documentación API con Swagger</a>
+                </div>
+                <div class="div_enlace_externo"> <!-- Enlace a GitHub OAuth Service -->
+                    <img class="website_logo" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png">
+                    <a class="OAuthLink" href="/git_aut/"> Ingresar con GitHub </a>
+                </div>
             
+            </div>
+
+                <!-- END OF: Enlaces para GitHub OAuth y Swagger Documentation -->
+            </div>
+        
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cloud-API-Logo.svg/1139px-Cloud-API-Logo.svg.png" class="img-fluid img_mob">
     {% elif login == "Invalid User" %}
 
         <div class="title_div">
@@ -59,7 +73,7 @@
             <br>
             <p> Parece que ha ocurrido un error... </p>
             <div class="alert alert-danger" role="alert">
-                ERROR: Datos Incorrectos
+                ERROR: {{Error}}
               </div>
             </div>
         <br>
