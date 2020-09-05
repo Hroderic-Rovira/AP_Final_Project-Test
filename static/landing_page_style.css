@@ -223,7 +223,7 @@
         left: 0%;
     }
 
-    /* Enlaces Externos */
+    /* Enlaces Externos */ /* Los enlaces no podrán ser accedidos desde un teléfono. */
     .OAuthLink
     {
         display: none;
